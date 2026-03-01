@@ -11,13 +11,21 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 
 import boardBg from "./assets/pinboard-review.jpg";
-import addSoundFile from "./assets/add.mp3";
-import deleteSoundFile from "./assets/delete.mp3";
-import dropSoundFile from "./assets/paper.mp3";
+import addSound from "./assets/add.mp3";
+import deleteSound from "./assets/delete.mp3";
+import dropSound from "./assets/paper.mp3";
 
 import "./index.css";
 
 const columns = ["ToDo", "Doing", "Review", "Done"];
+
+const colors = [
+  "#fffa65",
+  "#ff9ff3",
+  "#7bed9f",
+  "#70a1ff",
+  "#feca57"
+];
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -44,7 +52,11 @@ function App() {
   const addTask = () => {
     if (!title.trim()) return;
 
-    playSound(addSoundFile);
+    const randomColor =
+      colors[Math.floor(Math.random() * colors.length)];
+    const randomRotate = (Math.random() * 6 - 3).toFixed(2);
+
+    playSound(addSound);
 
     setTasks([
       ...tasks,
@@ -52,7 +64,9 @@ function App() {
         id: Date.now().toString(),
         title,
         description,
-        status: "ToDo"
+        status: "ToDo",
+        color: randomColor,
+        rotate: randomRotate
       }
     ]);
 
@@ -64,7 +78,7 @@ function App() {
     const { active, over } = event;
     if (!over) return;
 
-    playSound(dropSoundFile);
+    playSound(dropSound);
 
     setTasks((prev) =>
       prev.map((task) =>
@@ -144,21 +158,30 @@ function Task({ task, setTasks, playSound }) {
     useDraggable({ id: task.id });
 
   const style = {
-    transform: CSS.Translate.toString(transform)
+    transform: `${CSS.Translate.toString(transform)} rotate(${task.rotate}deg)`,
+    backgroundColor: task.color
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="card">
-      <div {...listeners} {...attributes}>
-        <strong>{task.title}</strong>
-        <p>{task.description}</p>
-      </div>
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="card"
+      {...listeners}
+      {...attributes}
+    >
+      <div className="pin"></div>
+
+      <strong>{task.title}</strong>
+      <p>{task.description}</p>
 
       <button
         className="delete-btn"
         onClick={() => {
-          playSound(deleteSoundFile);
-          setTasks((prev) => prev.filter((t) => t.id !== task.id));
+          playSound(deleteSound);
+          setTasks((prev) =>
+            prev.filter((t) => t.id !== task.id)
+          );
         }}
       >
         ✕
