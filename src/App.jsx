@@ -13,7 +13,7 @@ import { CSS } from "@dnd-kit/utilities";
 import boardBg from "./assets/pinboard-review.jpg";
 import addSound from "./assets/add.mp3";
 import deleteSound from "./assets/delete.mp3";
-import dropSound from "./assets/paper.mp3";
+import dropSound from "./assets/drop.mp3";
 
 import "./index.css";
 
@@ -66,7 +66,8 @@ function App() {
         description,
         status: "ToDo",
         color: randomColor,
-        rotate: randomRotate
+        rotate: randomRotate,
+        isEditing: false
       }
     ]);
 
@@ -162,30 +163,70 @@ function Task({ task, setTasks, playSound }) {
     backgroundColor: task.color
   };
 
+  const toggleEdit = () => {
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.id === task.id ? { ...t, isEditing: !t.isEditing } : t
+      )
+    );
+  };
+
+  const updateTask = (field, value) => {
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.id === task.id ? { ...t, [field]: value } : t
+      )
+    );
+  };
+
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="card"
-      {...listeners}
-      {...attributes}
-    >
+    <div ref={setNodeRef} style={style} className="card">
+      
       <div className="pin"></div>
 
-      <strong>{task.title}</strong>
-      <p>{task.description}</p>
+      {/* DRAG HANDLE ONLY ON TITLE */}
+      <div className="drag-handle" {...listeners} {...attributes}>
+        📌 Drag
+      </div>
 
-      <button
-        className="delete-btn"
-        onClick={() => {
-          playSound(deleteSound);
-          setTasks((prev) =>
-            prev.filter((t) => t.id !== task.id)
-          );
-        }}
-      >
-        ✕
-      </button>
+      {task.isEditing ? (
+        <>
+          <input
+            value={task.title}
+            onChange={(e) =>
+              updateTask("title", e.target.value)
+            }
+          />
+          <textarea
+            value={task.description}
+            onChange={(e) =>
+              updateTask("description", e.target.value)
+            }
+          />
+        </>
+      ) : (
+        <>
+          <strong>{task.title}</strong>
+          <p>{task.description}</p>
+        </>
+      )}
+
+      <div className="btn-group">
+        <button onClick={toggleEdit}>
+          {task.isEditing ? "Save" : "Edit"}
+        </button>
+
+        <button
+          onClick={() => {
+            playSound(deleteSound);
+            setTasks((prev) =>
+              prev.filter((t) => t.id !== task.id)
+            );
+          }}
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 }
