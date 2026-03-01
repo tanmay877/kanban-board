@@ -88,12 +88,13 @@
   margin-bottom: 15px;
   position: relative;
   box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-  transition: transform 0.3s ease;
   cursor: grab;
+  transition: transform 0.3s ease;
+  touch-action: none;
 }
 
 .card:hover {
-  transform: scale(1.05) rotate(var(--rotate));
+  transform: scale(1.05);
 }
 
 .pin {
@@ -108,7 +109,6 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.6);
 }
 
-/* Paper curl effect */
 .paper-curl {
   width: 0;
   height: 0;
@@ -117,11 +117,6 @@
   position: absolute;
   bottom: 0;
   right: 0;
-}
-
-.card p {
-  font-size: 14px;
-  margin-top: 5px;
 }
 
 .drag-handle {
@@ -143,14 +138,7 @@
   background: transparent;
   cursor: pointer;
   font-size: 16px;
-  transition: transform 0.2s ease;
 }
-
-.icon-btn:hover {
-  transform: scale(1.2);
-}
-
-/* MOBILE */
 
 @media (max-width: 768px) {
   .board {

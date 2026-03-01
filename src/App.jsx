@@ -3,6 +3,7 @@ import {
   DndContext,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   useDraggable,
@@ -40,7 +41,15 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  const sensors = useSensors(useSensor(PointerSensor));
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 150,
+        tolerance: 5
+      }
+    })
+  );
 
   const playSound = (file) => {
     const audio = new Audio(file);
@@ -53,8 +62,7 @@ function App() {
 
     const randomColor =
       colors[Math.floor(Math.random() * colors.length)];
-
-    const randomRotate = (Math.random() * 8 - 4).toFixed(2); // -4deg to +4deg
+    const randomRotate = (Math.random() * 8 - 4).toFixed(2);
 
     playSound(addSound);
 
@@ -226,7 +234,6 @@ function Task({ task, setTasks, playSound }) {
         </button>
       </div>
 
-      {/* Paper Curl Corner */}
       <div className="paper-curl"></div>
     </div>
   );
