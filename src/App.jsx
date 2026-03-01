@@ -8,7 +8,6 @@ import {
   useDraggable,
   useDroppable
 } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 
 import boardBg from "./assets/pinboard-review.jpg";
 import addSound from "./assets/add.mp3";
@@ -54,7 +53,8 @@ function App() {
 
     const randomColor =
       colors[Math.floor(Math.random() * colors.length)];
-    const randomRotate = (Math.random() * 6 - 3).toFixed(2);
+
+    const randomRotate = (Math.random() * 8 - 4).toFixed(2); // -4deg to +4deg
 
     playSound(addSound);
 
@@ -156,8 +156,12 @@ function Task({ task, setTasks, playSound }) {
   const { attributes, listeners, setNodeRef, transform } =
     useDraggable({ id: task.id });
 
+  const translate = transform
+    ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+    : "";
+
   const style = {
-    transform: `${CSS.Translate.toString(transform)} rotate(${task.rotate}deg)`,
+    transform: `${translate} rotate(${task.rotate}deg)`,
     backgroundColor: task.color
   };
 
@@ -181,7 +185,6 @@ function Task({ task, setTasks, playSound }) {
     <div ref={setNodeRef} style={style} className="card">
       <div className="pin"></div>
 
-      {/* Drag handle only */}
       <div className="drag-handle" {...listeners} {...attributes}>
         ⋮⋮
       </div>
@@ -207,14 +210,9 @@ function Task({ task, setTasks, playSound }) {
       )}
 
       <div className="btn-group">
-        <button
-          className="icon-btn"
-          onClick={toggleEdit}
-          title="Edit"
-        >
+        <button className="icon-btn" onClick={toggleEdit}>
           ✏️
         </button>
-
         <button
           className="icon-btn"
           onClick={() => {
@@ -223,11 +221,13 @@ function Task({ task, setTasks, playSound }) {
               prev.filter((t) => t.id !== task.id)
             );
           }}
-          title="Delete"
         >
           ❌
         </button>
       </div>
+
+      {/* Paper Curl Corner */}
+      <div className="paper-curl"></div>
     </div>
   );
 }
