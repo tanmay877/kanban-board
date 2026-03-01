@@ -24,6 +24,14 @@
   text-shadow: 0 6px 30px rgba(0,0,0,0.9);
 }
 
+.author {
+  font-size: 16px;
+  color: white;
+  opacity: 0.85;
+  margin-top: 5px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
 .add-section {
   max-width: 600px;
   margin: auto;
@@ -42,8 +50,8 @@
 }
 
 .add-section button {
-  padding: 12px;
-  border-radius: 12px;
+  padding: 14px;
+  border-radius: 14px;
   border: none;
   background: orange;
   color: white;
@@ -54,7 +62,6 @@
 .columns {
   display: flex;
   gap: 20px;
-  justify-content: space-between;
 }
 
 .column {
@@ -63,7 +70,7 @@
   padding: 20px;
   border-radius: 20px;
   backdrop-filter: blur(25px);
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.18);
   box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
@@ -79,6 +86,7 @@
   border-radius: 15px;
   margin-bottom: 10px;
   position: relative;
+  cursor: grab;
 }
 
 .card p {
@@ -95,7 +103,7 @@
   cursor: pointer;
 }
 
-/* ===== MOBILE ===== */
+/* MOBILE */
 
 @media (max-width: 768px) {
 
@@ -107,13 +115,8 @@
     font-size: 36px;
   }
 
-  .add-section {
-    width: 100%;
-  }
-
-  .add-section button {
-    width: 60%;
-    margin: auto;
+  .author {
+    font-size: 14px;
   }
 
   .columns {
@@ -123,5 +126,10 @@
 
   .column {
     min-height: 300px;
+  }
+
+  .add-section button {
+    width: 60%;
+    margin: auto;
   }
 }
