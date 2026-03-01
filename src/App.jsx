@@ -13,7 +13,7 @@ import { CSS } from "@dnd-kit/utilities";
 import boardBg from "./assets/pinboard-review.jpg";
 import addSoundFile from "./assets/add.mp3";
 import deleteSoundFile from "./assets/delete.mp3";
-import dropSoundFile from "./assets/drop.mp3";
+import dropSoundFile from "./assets/paper.mp3";
 
 import "./index.css";
 
