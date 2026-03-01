@@ -104,13 +104,11 @@ function App() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Task title..."
         />
-
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Task description..."
         />
-
         <button onClick={addTask}>Add</button>
       </div>
 
@@ -181,21 +179,18 @@ function Task({ task, setTasks, playSound }) {
 
   return (
     <div ref={setNodeRef} style={style} className="card">
-      
       <div className="pin"></div>
 
-      {/* DRAG HANDLE ONLY ON TITLE */}
+      {/* Drag handle only */}
       <div className="drag-handle" {...listeners} {...attributes}>
-        📌 Drag
+        ⋮⋮
       </div>
 
       {task.isEditing ? (
         <>
           <input
             value={task.title}
-            onChange={(e) =>
-              updateTask("title", e.target.value)
-            }
+            onChange={(e) => updateTask("title", e.target.value)}
           />
           <textarea
             value={task.description}
@@ -212,19 +207,25 @@ function Task({ task, setTasks, playSound }) {
       )}
 
       <div className="btn-group">
-        <button onClick={toggleEdit}>
-          {task.isEditing ? "Save" : "Edit"}
+        <button
+          className="icon-btn"
+          onClick={toggleEdit}
+          title="Edit"
+        >
+          ✏️
         </button>
 
         <button
+          className="icon-btn"
           onClick={() => {
             playSound(deleteSound);
             setTasks((prev) =>
               prev.filter((t) => t.id !== task.id)
             );
           }}
+          title="Delete"
         >
-          Delete
+          ❌
         </button>
       </div>
     </div>
